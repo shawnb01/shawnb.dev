@@ -3,6 +3,8 @@
 import { useState } from "react";
 
 import { api } from "~/trpc/react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 export function LatestPost() {
   const [latestPost] = api.post.getLatest.useSuspenseQuery();
@@ -18,7 +20,7 @@ export function LatestPost() {
   });
 
   return (
-    <div className="w-full max-w-xs">
+    <div className="flex w-full max-w-xs flex-col gap-4 justify-self-center rounded-lg bg-zinc-700/30 p-4">
       {latestPost ? (
         <p className="truncate">Your most recent post: {latestPost.name}</p>
       ) : (
@@ -31,20 +33,29 @@ export function LatestPost() {
         }}
         className="flex flex-col gap-2"
       >
-        <input
+        <Input
+          type="text"
+          placeholder="Title"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        {/* <input
           type="text"
           placeholder="Title"
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full rounded-full px-4 py-2 text-black"
-        />
-        <button
+        /> */}
+        <Button type="submit" disabled={createPost.isPending || !name.trim()}>
+          {createPost.isPending ? "Submitting..." : "Submit"}
+        </Button>
+        {/* <button
           type="submit"
           className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
           disabled={createPost.isPending}
         >
           {createPost.isPending ? "Submitting..." : "Submit"}
-        </button>
+        </button> */}
       </form>
     </div>
   );

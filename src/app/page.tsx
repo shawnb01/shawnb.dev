@@ -1,16 +1,25 @@
-import Link from "next/link";
-
 import { LatestPost } from "~/app/_components/post";
 import { api, HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
 
-  // void api.post.getLatest.prefetch();
+  void api.post.getLatest.prefetch();
 
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      {/* Main Page Content */}
+      <main className="container mx-auto flex min-h-max flex-col">
+        <div className="p-8">
+          <h1 className="text-4xl font-bold">Welcome to the Home Page</h1>
+          <p className="my-4 text-lg">
+            {hello ? hello.greeting : "Loading tRPC query..."}
+          </p>
+          <LatestPost />
+        </div>
+      </main>
+
+      {/* <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
@@ -47,7 +56,7 @@ export default async function Home() {
 
           <LatestPost />
         </div>
-      </main>
+      </main> */}
     </HydrateClient>
   );
 }
